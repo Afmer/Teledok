@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using app.Architecture.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace app.DataModel;
+namespace app.Architecture.DataModel;
 [PrimaryKey(nameof(INN))]
 public class Client
 {

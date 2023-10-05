@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using app.DataModel;
+using app.Architecture.DataModel;
 
 namespace app.Models;
 

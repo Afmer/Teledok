@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace app.DataModel;
+namespace app.Architecture.DataModel;
 [PrimaryKey(nameof(INN))]
 public class Founder
 {
