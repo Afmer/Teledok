@@ -1,3 +1,156 @@
+@using app.Architecture.Enums
+@model AddClientModel
+@{
+    var validationFounderINN = new {
+        data_val_length = "Длина ИНН должна быть 10",
+        data_val_length_max = "10",
+        data_val_length_min = "10",
+        maxLength="10",
+        data_val_required= "ИНН должен быть заполнен"
+    };
+    var validationFounderName = new {
+        data_val_length = "Длина не может быть больше 50",
+        data_val_length_max = "50",
+        data_val_required= "Имя должно быть заполнено"
+    };
+    var validationFounderSurname = new {
+        data_val_length = "Длина не может быть больше 50",
+        data_val_length_max = "50",
+        data_val_required= "Фамилия должна быть заполнено"
+    };
+    var validationFounderPatronymic = new {
+        data_val_length = "Длина не может быть больше 50",
+        data_val_length_max = "50"
+    };
+}
 <div>
-    
+    <form method="post">
+        <div>
+            <input type="text" asp-for="ClientINN"/>
+            <span style="color: red;" asp-validation-for="ClientINN"></span>
+        </div>
+        <div>
+            <input type="text" asp-for="ClientName">
+            <span style="color: red;" asp-validation-for="ClientName"></span>
+        </div>
+        <div>
+            <select asp-for="ClientType">
+                <option value="@ClientType.IndividualEntrepreneur">Индивидуальный предприниматель</option>
+                <option value="@ClientType.LegalEntity">Юридическое лицо</option>
+            </select>
+        </div>
+        <div id="foundersSection" style="display:none;">
+            <h4>Учредители</h4>
+            <button type="button" id="addFounderBtn">Добавить учредителя</button>
+            <div id="foundersContainer"></div>
+            <div id="spanErrors">
+                <p>errors</p>
+                <span data-valmsg-replace=true id="spanFounderINNValidation" style="color: red;" ></span>
+                <span data-valmsg-replace=true id="spanFounderNameValidation" style="color: red;" ></span>
+                <span data-valmsg-replace=true id="spanFounderSurnameValidation" style="color: red;" ></span>
+                <span data-valmsg-replace=true id="spanFounderPatronymicValidation" style="color: red;" ></span>
+            </div>
+            <button id="saveFounderButton" type="button" style="display:none;">Добавить</button>
+            <div id="foundersCollection"></div>
+        </div>
+        <input type="submit"/>
+    </form>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        document.getElementById('ClientType').addEventListener('change', function() {
+            var foundersSection = document.getElementById('foundersSection');
+            var foundersContainer = document.getElementById('foundersContainer');
+
+            if (this.value === '@ClientType.LegalEntity') {
+                foundersSection.style.display = 'block';
+            } else {
+                foundersSection.style.display = 'none';
+            }
+        });
+
+
+    var founderIndex = 0;
+    var isFounderFormActive = false;
+
+    document.getElementById('addFounderBtn').addEventListener('click', function() {
+        if(!isFounderFormActive)
+        {
+            var foundersContainer = document.getElementById('foundersContainer');
+            document.getElementById('saveFounderButton').style.display = 'block';
+            var founderINN = document.createElement('input');
+            founderINN.setAttribute('data-val', 'true');
+            founderINN.type = 'text';
+            founderINN.name = 'Founders[' + founderIndex + '].INN';
+            founderINN.id = 'Founders[' + founderIndex + '].INN';
+            founderINN.classList.add('form-control');
+            founderINN.placeholder = 'ИНН учредителя';
+            founderINN.setAttribute('data-val-length', '@validationFounderINN.data_val_length');
+            founderINN.setAttribute('data-val-length-max', '@validationFounderINN.data_val_length_max');
+            founderINN.setAttribute('data-val-length-min', '@validationFounderINN.data_val_length_min');
+            founderINN.setAttribute('data-val-required', '@validationFounderINN.data_val_required');
+            founderINN.setAttribute('style', 'display:block');
+            var spanINN = document.getElementById('spanFounderINNValidation');
+            spanINN.setAttribute('data-valmsg-for', 'Founders[' + founderIndex + '].INN');
+
+            var founderName = document.createElement('input');
+            founderName.setAttribute('data-val', 'true');
+            founderName.type = 'text';
+            founderName.name = 'Founders[' + founderIndex + '].Name';
+            founderName.id = 'Founders[' + founderIndex + '].Name';
+            founderName.classList.add('form-control');
+            founderName.placeholder = 'Имя учредителя';
+            founderName.setAttribute('data-val-length', '@validationFounderName.data_val_length');
+            founderName.setAttribute('data-val-length-max', '@validationFounderName.data_val_length_max');
+            founderName.setAttribute('data-val-required', '@validationFounderName.data_val_required');
+            founderName.setAttribute('style', 'display:block');
+            var spanName = document.getElementById('spanFounderNameValidation');
+            spanName.setAttribute('data-valmsg-for', 'Founders[' + founderIndex + '].Name');
+
+            var founderSurname = document.createElement('input');
+            founderSurname.setAttribute('data-val', 'true');
+            founderSurname.type = 'text';
+            founderSurname.name = 'Founders[' + founderIndex + '].Surname';
+            founderSurname.id = 'Founders[' + founderIndex + '].Surname';
+            founderSurname.classList.add('form-control');
+            founderSurname.placeholder = 'Фамилия учредителя';
+            founderSurname.setAttribute('data-val-length', '@validationFounderSurname.data_val_length');
+            founderSurname.setAttribute('data-val-length-max', '@validationFounderSurname.data_val_length_max');
+            founderSurname.setAttribute('data-val-required', '@validationFounderSurname.data_val_required');
+            founderSurname.setAttribute('style', 'display:block');
+            var spanSurname = document.getElementById('spanFounderSurnameValidation');
+            spanSurname.setAttribute('data-valmsg-for', 'Founders[' + founderIndex + '].Surname');
+
+            var founderPatronymic = document.createElement('input');
+            founderPatronymic.setAttribute('data-val', 'true');
+            founderPatronymic.type = 'text';
+            founderPatronymic.name = 'Founders[' + founderIndex + '].Patronymic';
+            founderPatronymic.id = 'Founders[' + founderIndex + '].Patronymic';
+            founderPatronymic.classList.add('form-control');
+            founderPatronymic.placeholder = 'Отчество учредителя';
+            founderPatronymic.setAttribute('data-val-length', '@validationFounderPatronymic.data_val_length');
+            founderPatronymic.setAttribute('data-val-length-max', '@validationFounderPatronymic.data_val_length_max');
+            founderPatronymic.setAttribute('style', 'display:block');
+            document.getElementById('spanFounderPatronymicValidation').setAttribute('data-valmsg-for', 'Founders[' + founderIndex + '].Patronymic');
+
+            foundersContainer.appendChild(founderINN);
+            foundersContainer.appendChild(founderName);
+            foundersContainer.appendChild(founderSurname);
+            foundersContainer.appendChild(founderPatronymic)
+
+            founderIndex++;
+            isFounderFormActive = true;
+        }
+    });
+    document.getElementById('saveFounderButton').addEventListener('click', function() {
+        var container = document.getElementById('foundersContainer');
+        var collection = document.getElementById('foundersCollection');
+        while (container.firstElementChild) {
+            container.firstElementChild.setAttribute('style', 'display:none');
+            collection.appendChild(container.firstElementChild);
+        }
+        isFounderFormActive = false;
+    });
+    </script>
 </div>
