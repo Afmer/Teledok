@@ -7,7 +7,8 @@ namespace app.Architecture.DataModel;
 public class Client
 {
     [Required]
-    [StringLength(10, MinimumLength = 10)]
+    [StringLength(10, MinimumLength = 10, ErrorMessage = "Длина ИНН должна быть 10")]
+    [Display(Name = "ИНН")]
     public string INN {get; set;} = null!;
     [Required]
     [MaxLength(100)]
