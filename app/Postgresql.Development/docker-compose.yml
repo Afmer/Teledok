@@ -1,0 +1,14 @@
+services:
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=afmerlord@gmail.com
+            - PGADMIN_DEFAULT_PASSWORD=red_alien
+        ports:
+            - 5001:80
+    postgres:
+        image: postgres
+        environment:
+            - POSTGRES_PASSWORD=red_alien
+        ports:
+            - 5433:5432
