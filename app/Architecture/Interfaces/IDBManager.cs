@@ -1,6 +1,6 @@
 namespace app.Architecture.Interfaces;
 
-public interface IDBManager
+public interface IDBManager : IFounderDBHandler
 {
     
 }
