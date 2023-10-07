@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace app.Architecture.DataModel;
-[PrimaryKey(nameof(INN))]
-public class Founder
+namespace app.Models;
+
+public class AddFounderModel
 {
     [Required]
     [StringLength(10, MinimumLength = 10)]
@@ -16,8 +15,4 @@ public class Founder
     public string Surname {get; set;} = null!;
     [MaxLength(50)]
     public string Patronymic {get; set;} = null!;
-    [Required]
-    public DateTime AddDateTime {get; set;}
-    [Required]
-    public DateTime UpdateDateTime {get; set;}
 }

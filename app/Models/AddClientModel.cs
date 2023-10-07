@@ -15,20 +15,5 @@ public class AddClientModel
     public string ClientName {get; set;} = null!;
     [Required]
     public ClientType ClientType {get; set;}
-    public FounderInfo[] Founders {get; set;} = null!;
-}
-
-public class FounderInfo
-{
-    [Required]
-    [StringLength(10, MinimumLength = 10)]
-    public string INN {get; set;} = null!;
-    [Required]
-    [MaxLength(50)]
-    public string Name {get; set;} = null!;
-    [Required]
-    [MaxLength(50)]
-    public string Surname {get; set;} = null!;
-    [MaxLength(50)]
-    public string Patronymic {get; set;} = null!;
+    
 }

@@ -1,0 +1,25 @@
+@model AddFounderModel
+<div>
+    <form method="post">
+        <div>
+            <input asp-for="INN" placeholder="Ввведите ИНН"/>
+            <span style="color: red;" asp-validation-for="INN"></span>
+        </div>
+        <div>
+            <input asp-for="Name" placeholder="Введите имя"/>
+            <span style="color: red;" asp-validation-for="Name"></span>
+        </div>
+        <div>
+            <input asp-for="Surname" placeholder="Введите фамилию"/>
+            <span style="color: red;" asp-validation-for="Surname"></span>
+        </div>
+        <div>
+            <input asp-for="Patronymic" placeholder="Введите отчество"/>
+            <span style="color: red;" asp-validation-for="Patronymic"></span>
+        </div>
+        <input type="submit"/>
+    </form>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</div>

@@ -19,7 +19,12 @@ public class ClientController : Controller
     public IActionResult Add(AddClientModel model)
     {
         if(ModelState.IsValid)
-            return Json(new {status = "ok"});
+        {
+            if(model.FoundersNum != 0)
+                return RedirectToAction("EnterFounders", "Client", model);
+            else
+                return Json(new {status = "ok"});
+        }
         else
             return Json(new {status = "invalid"});
     }

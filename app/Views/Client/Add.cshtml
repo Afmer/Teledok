@@ -1,3 +1,39 @@
+@using app.Architecture.Enums
+@model AddClientModel
 <div>
-    
+    <form method="post">
+        <div>
+            <input type="text" asp-for="ClientINN"/>
+            <span style="color: red;" asp-validation-for="ClientINN"></span>
+        </div>
+        <div>
+            <input type="text" asp-for="ClientName">
+            <span style="color: red;" asp-validation-for="ClientName"></span>
+        </div>
+        <div>
+            <select asp-for="ClientType">
+                <option value="@ClientType.IndividualEntrepreneur">Индивидуальный предприниматель</option>
+                <option value="@ClientType.LegalEntity">Юридическое лицо</option>
+            </select>
+        </div>
+        <div id="FoundersNumContainer" style="display:none">
+            <input asp-for="FoundersNum"/>
+            <span style="color: red;" asp-validation-for="FoundersNum"></span>
+        </div>
+        <input type="submit"/>
+    </form>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        document.getElementById('ClientType').addEventListener('change', function() {
+            var foundersNum = document.getElementById('FoundersNumContainer');
+
+            if (this.value === '@ClientType.LegalEntity') {
+                foundersNum.style.display = 'block';
+            } else {
+                foundersNum.style.display = 'none';
+            }
+        });
+    </script>
 </div>
