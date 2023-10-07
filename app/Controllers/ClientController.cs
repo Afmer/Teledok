@@ -20,10 +20,7 @@ public class ClientController : Controller
     {
         if(ModelState.IsValid)
         {
-            if(model.FoundersNum != 0)
-                return RedirectToAction("EnterFounders", "Client", model);
-            else
-                return Json(new {status = "ok"});
+            return Json(new {status = "ok"});
         }
         else
             return Json(new {status = "invalid"});
