@@ -1,14 +1,21 @@
 @using app.Architecture.Enums
 @model AddClientModel
+@{
+    var founderINNValidation = new {
+        MaxLength = 10,
+        MinLength = 10,
+        Regex = @"^\\d+$"
+    };
+}
 <div>
-    <form method="post">
+    <form id="addClientForm" method="post">
         <div>
             <input type="text" asp-for="ClientINN"/>
-            <span style="color: red;" asp-validation-for="ClientINN"></span>
+            <span class="span-error" asp-validation-for="ClientINN"></span>
         </div>
         <div>
             <input type="text" asp-for="ClientName">
-            <span style="color: red;" asp-validation-for="ClientName"></span>
+            <span class="span-error" asp-validation-for="ClientName"></span>
         </div>
         <div>
             <select asp-for="ClientType">
@@ -16,7 +23,10 @@
                 <option value="@ClientType.LegalEntity">Юридическое лицо</option>
             </select>
         </div>
-        <div id="FoundersNumContainer" style="display:none">
+        <div id="FoundersINNContainer" style="display:none">
+            <input type="number" id="founderCount" value="0"/>
+            <div id="FounderINNInputs">
+            </div>
         </div>
         <input type="submit"/>
     </form>
@@ -25,12 +35,41 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script>
         document.getElementById('ClientType').addEventListener('change', function() {
-            var foundersNum = document.getElementById('FoundersNumContainer');
+            var foundersNum = document.getElementById('FoundersINNContainer');
 
             if (this.value === '@ClientType.LegalEntity') {
                 foundersNum.style.display = 'block';
             } else {
                 foundersNum.style.display = 'none';
+            }
+        });
+
+        var founderCountInput = document.getElementById('founderCount');
+        founderCountInput.addEventListener('change', function() {
+            var count = founderCountInput.value;
+            var html = '';
+            for(var i = 0; i < count; i++){
+                const index = i.toString();
+                const string = `
+                <div>
+                    <input type="text" maxlength="@founderINNValidation.MaxLength" class="founderINN" id="INNs[${index}]" name="INNs[${index}]"/>
+                    <span class="span-error" data-valmsg-for="INNs[${index}]" data-valmsg-replace="true"></span>
+                </div>
+                `;
+                html += string;
+            }
+            document.getElementById('FounderINNInputs').innerHTML = html;
+        });
+        jQuery.validator.addMethod("INNRequired", jQuery.validator.methods.required,"ИНН должен быть обязательно");
+        jQuery.validator.addMethod("INNRegex", jQuery.validator.methods.regex, "Это не ИНН");
+        jQuery.validator.addMethod("INNMaxLength", jQuery.validator.methods.maxlength, "ИНН не может быть больше @founderINNValidation.MaxLength");
+        jQuery.validator.addMethod("INNMinLength", jQuery.validator.methods.minlength, "ИНН не может быть меньше @founderINNValidation.MinLength");
+        $.validator.addClassRules({
+            founderINN: {
+                INNRequired: true,
+                INNRegex: '@Html.Raw(founderINNValidation.Regex)',
+                INNMinLength: @founderINNValidation.MinLength,
+                INNMaxLength: @founderINNValidation.MaxLength
             }
         });
     </script>

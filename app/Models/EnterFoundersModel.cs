@@ -6,6 +6,6 @@ public class EnterFoundersModel
     [Required]
     public AddClientModel Client {get; set;} = null!;
     [Required]
-    [ArrayStringLength(10, ErrorMessage = "ИНН должен быть длиной 10")]
+    [ArrayINNLength]
     public string[] FounderINNs {get; set;} = null!;
 }
