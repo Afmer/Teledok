@@ -18,6 +18,6 @@ public class AddClientModel
     [Required]
     public ClientType ClientType {get; set;}
     [ArrayINNLength]
-    public string[] INNs {get; set;} = null!;
+    public string[] FounderINNs {get; set;} = null!;
     
 }
