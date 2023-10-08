@@ -43,5 +43,6 @@ public class Program
     {
         builder.Services.AddScoped<IDBManager, DbManagerService>();
         builder.Services.AddScoped<IFounderDBHandler, DbManagerService>();
+        builder.Services.AddScoped<IClientDBHandler, DbManagerService>();
     }
 }
