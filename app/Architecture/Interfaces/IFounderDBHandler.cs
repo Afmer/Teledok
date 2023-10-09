@@ -1,8 +1,10 @@
 using app.Architecture.DataModel;
+using app.Architecture.Enums;
+using app.Models;
 
 namespace app.Architecture.Interfaces;
 
 public interface IFounderDBHandler
 {
-    public Task<(bool Success, Exception? Exception)> AddFounder(Founder founder);
+    public Task<(AddFounderStatus Status, Exception? Exception)> AddFounder(AddFounderModel model);
 }

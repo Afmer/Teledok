@@ -29,13 +29,30 @@ public class DbManagerService : IDBManager
             return (false, e);
         }
     }
-    public async Task<(bool Success, Exception? Exception)> AddFounder(Founder founder)
+    public async Task<(AddFounderStatus Status, Exception? Exception)> AddFounder(AddFounderModel model)
     {
+        AddFounderStatus status = AddFounderStatus.Success;
         var result = await ExecuteInTransaction(async () => {
-            var context = new ValidationContext(founder, null, null);
+            var context = new ValidationContext(model, null, null);
             var results = new List<ValidationResult>();
-            if(Validator.TryValidateObject(founder, context, results, true))
+            if(Validator.TryValidateObject(model, context, results, true))
             {
+                bool isInnExists = _context.Founders.Where(x => x.INN == model.INN).Count() != 0;
+                if(isInnExists)
+                {
+                    status = AddFounderStatus.INNExistsError;
+                    throw new Exception("Inn exists");
+                }
+                var time = DateTime.UtcNow;
+                var founder = new Founder()
+                {
+                    AddDateTime = time,
+                    UpdateDateTime = time,
+                    Patronymic = model.Patronymic,
+                    Surname = model.Surname,
+                    Name = model.Name,
+                    INN = model.INN
+                };
                 await _context.Founders.AddAsync(founder);
                 await _context.SaveChangesAsync();
             }
@@ -49,7 +66,10 @@ public class DbManagerService : IDBManager
                 throw new Exception(errorMessage);
             }
         });
-        return (result.Success, result.Exception);
+        if(status == AddFounderStatus.Success && !result.Success)
+            return (AddFounderStatus.UnknownError, result.Exception);
+        else
+            return (status, result.Exception);
     }
 
     public async Task<(AddClientStatus Status, Exception? Exception)> AddClient(AddClientModel model)

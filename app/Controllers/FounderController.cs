@@ -1,4 +1,5 @@
 using app.Architecture.DataModel;
+using app.Architecture.Enums;
 using app.Architecture.Interfaces;
 using app.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,16 +24,14 @@ public class FounderController : Controller
     {
         if(ModelState.IsValid)
         {
-            var founder = new Founder()
+            var result = await _dbHandler.AddFounder(model);
+            if(result.Status == AddFounderStatus.INNExistsError)
             {
-                AddDateTime = DateTime.UtcNow,
-                UpdateDateTime = DateTime.UtcNow,
-                Patronymic = model.Patronymic,
-                Surname = model.Surname,
-                Name = model.Name,
-                INN = model.INN
-            };
-            await _dbHandler.AddFounder(founder);
+                ModelState.AddModelError(nameof(model.INN), "Учредитель с таким ИНН уже существует");
+                return View(model);
+            }
+            else if(result.Status == AddFounderStatus.UnknownError)
+                return Content("unknown error");
             return View("SuccessAdd");
         }
         else
