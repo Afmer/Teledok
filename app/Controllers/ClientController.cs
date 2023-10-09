@@ -22,9 +22,42 @@ public class ClientController : Controller
     {
         if(ModelState.IsValid)
         {
+            if(model.ClientType == ClientType.LegalEntity)
+            {
+                if(model.FounderINNs != null)
+                {
+                    var isFounderINNsExists = _dbHandler.IsFounderINNsExists(model.FounderINNs);
+                    bool isError = false;
+                    string errorMessage = "Следующих учредителей нет в базе: ";
+                    for(int i = 0; i < isFounderINNsExists.Length; i++)
+                    {
+                        if(!isFounderINNsExists[i])
+                        {
+                            string str = "";
+                            if(isError)
+                                str += "; ";
+                            str += model.FounderINNs[i];
+                            errorMessage += str;
+                            isError = true;
+                        }
+                    }
+                    if(isError)
+                    {
+                        ViewBag.FounderINNsNotExistsMessage = errorMessage;
+                        return View(model);
+                    }
+                }
+                else
+                    return Content("Founder's INN not found");
+            }
             var result = await _dbHandler.AddClient(model);
             if(result.Status == AddClientStatus.Success)
                 return View("SuccessAdd");
+            else if(result.Status == AddClientStatus.INNExistsError)
+            {
+                ModelState.AddModelError(nameof(model.ClientINN), "Такой ИНН уже существует");
+                return View(model);
+            }
             else
                 return Content(result.Exception != null ? result.Exception.Message : "");
         }

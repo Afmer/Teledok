@@ -6,6 +6,7 @@
         MinLength = 10,
         Regex = @"^\\d+$"
     };
+    string founderINNsNotExistsMessage = ViewBag.FounderINNsNotExistsMessage ?? "";
 }
 <div>
     <form id="addClientForm" method="post">
@@ -23,8 +24,9 @@
                 <option value="@ClientType.LegalEntity">Юридическое лицо</option>
             </select>
         </div>
-        <div id="FoundersINNContainer" style="display:none">
-            <input type="number" id="founderCount" value="0"/>
+        <div id="FoundersINNContainer">
+            <p class="span-error">@founderINNsNotExistsMessage</p>
+            <input type="number" asp-for="@Model.FoundersCount" min="0"/>
             <div id="FounderINNInputs">
             </div>
         </div>
@@ -34,18 +36,20 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script>
-        document.getElementById('ClientType').addEventListener('change', function() {
-            var foundersNum = document.getElementById('FoundersINNContainer');
+        var clientType = document.getElementById('ClientType');
+        var foundersNum = document.getElementById('FoundersINNContainer');
+        var founderCountInput = document.getElementById('FoundersCount');
+        var UpdateFoundersContentVisibility = function() {
+            foundersNum = document.getElementById('FoundersINNContainer');
 
-            if (this.value === '@ClientType.LegalEntity') {
+            if (clientType.value === '@ClientType.LegalEntity') {
                 foundersNum.style.display = 'block';
+                AddFounderINNsFileds();
             } else {
                 foundersNum.style.display = 'none';
             }
-        });
-
-        var founderCountInput = document.getElementById('founderCount');
-        founderCountInput.addEventListener('change', function() {
+        };
+        var AddFounderINNsFileds = function() {
             var count = founderCountInput.value;
             var html = '';
             for(var i = 0; i < count; i++){
@@ -59,7 +63,10 @@
                 html += string;
             }
             document.getElementById('FounderINNInputs').innerHTML = html;
-        });
+        };
+        clientType.addEventListener('change', UpdateFoundersContentVisibility);
+        document.addEventListener('DOMContentLoaded', UpdateFoundersContentVisibility);
+        founderCountInput.addEventListener('change', AddFounderINNsFileds);
         jQuery.validator.addMethod("INNRequired", jQuery.validator.methods.required,"ИНН должен быть обязательно");
         jQuery.validator.addMethod("INNRegex", jQuery.validator.methods.regex, "Это не ИНН");
         jQuery.validator.addMethod("INNMaxLength", jQuery.validator.methods.maxlength, "ИНН не может быть больше @founderINNValidation.MaxLength");

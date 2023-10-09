@@ -80,6 +80,12 @@ public class DbManagerService : IDBManager
             var results = new List<ValidationResult>();
             if(Validator.TryValidateObject(model, context, results, true))
             {
+                bool isINNExists = _context.Clients.Where(x => x.INN == model.ClientINN).Count() != 0;
+                if(isINNExists)
+                {
+                    status = AddClientStatus.INNExistsError;
+                    throw new Exception("INN exists");
+                }
                 if(model.ClientType == ClientType.LegalEntity)
                 {
                     if(model.FounderINNs != null)
@@ -138,5 +144,20 @@ public class DbManagerService : IDBManager
             return (AddClientStatus.UnknownError, result.Exception);
         else
             return (status, result.Exception);
+    }
+    public bool[] IsFounderINNsExists(string[] founderINNs)
+    {
+        var result = Enumerable.Repeat(false, founderINNs.Length).ToArray();
+        var dict = new Dictionary<string, int>();
+        for(int i = 0; i < founderINNs.Length; i++)
+            dict.Add(founderINNs[i], i);
+        var existINNs = _context.Founders
+            .Where(x => founderINNs
+            .Contains(x.INN))
+            .Select(x => x.INN)
+            .ToArray();
+        foreach(var inn in existINNs)
+            result[dict[inn]] = true;
+        return result;
     }
 }

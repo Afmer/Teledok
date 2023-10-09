@@ -17,6 +17,8 @@ public class AddClientModel
     public string ClientName {get; set;} = null!;
     [Required]
     public ClientType ClientType {get; set;}
+    [Range(0, int.MaxValue, ErrorMessage = "Значение должно быть неотрицательным.")]
+    public int? FoundersCount {get; set;}
     [ArrayINNLength]
     public string[]? FounderINNs {get; set;} = null!;
     
