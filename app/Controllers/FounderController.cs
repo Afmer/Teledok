@@ -1,9 +1,7 @@
-using app.Architecture.DataModel;
 using app.Architecture.Enums;
 using app.Architecture.Interfaces;
 using app.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace app.Controllers;
 

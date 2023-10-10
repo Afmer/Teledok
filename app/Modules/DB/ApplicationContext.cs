@@ -1,4 +1,4 @@
-using app.Architecture.DataModel;
+using app.Modules.DB.DataModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace app.Modules.DB;

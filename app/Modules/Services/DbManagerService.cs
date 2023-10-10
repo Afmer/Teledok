@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using app.Architecture.DataModel;
 using app.Architecture.Enums;
 using app.Architecture.Interfaces;
 using app.Models;
 using app.Modules.DB;
+using app.Modules.DB.DataModels;
 
 namespace app.Modules.Services;
 

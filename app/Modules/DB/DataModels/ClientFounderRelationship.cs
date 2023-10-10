@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace app.Architecture.DataModel;
+namespace app.Modules.DB.DataModels;
 
 [PrimaryKey(nameof(Id))]
 public class ClientFounderRelationship

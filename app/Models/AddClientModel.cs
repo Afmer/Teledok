@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using app.Architecture.DataModel;
 using app.Architecture.Enums;
 using app.Architecture.ValidationAttributes;
 
