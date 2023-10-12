@@ -1,0 +1,121 @@
+.form-base {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-base .background{
+    background-color: #d1d1d1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-base td {
+    padding-top: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.form-base .input-text {
+    margin: 0 auto;
+}
+
+.form-base .input-text {
+    padding-top: 5px;
+}
+
+.form-base .founder-inns-inputs {
+    margin: 0 auto;
+}
+
+.form-base  input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-base input[type="text"]:hover {
+    border-color: #aaa;
+}
+
+.form-base input[type="text"]:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.form-base input[type="text"]::placeholder {
+    color: #999;
+}
+
+.form-base select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    appearance: none;
+}
+
+.form-base select:hover {
+    border-color: #aaa;
+}
+
+.form-base select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.form-base select::after {
+    content: "\25BC";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    pointer-events: none;
+}
+
+.form-base input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-base input[type="submit"]:hover {
+    background-color: #357ebd;
+}
+
+.form-base input[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.form-base input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+}
+
+.form-base input[type="number"]:hover {
+    border-color: #aaa;
+}
+
+.form-base input[type="number"]:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.form-base input[type="number"]::-webkit-inner-spin-button,
+.form-base input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

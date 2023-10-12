@@ -1,23 +1,36 @@
 @model AddFounderModel
 <div>
-    <form method="post">
-        <div>
-            <input asp-for="INN" placeholder="Ввведите ИНН"/>
-            <span style="color: red;" asp-validation-for="INN"></span>
+    <link rel="stylesheet" href="~/css/form-base.css" asp-append-version="true" />  
+    <form method="post" class="form-base">
+        <div class="background">
+            <table>
+                <tr><td>
+                    <table class="input-text">
+                        <tr><td><input asp-for="INN" placeholder="Ввведите ИНН"/></td></tr>
+                        <tr><td><span style="color: red;" asp-validation-for="INN"></span></td></tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table class="input-text">
+                        <tr><td><input asp-for="Name" placeholder="Введите имя"/></td></tr>
+                        <tr><td><span style="color: red;" asp-validation-for="Name"></span></td></tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table class="input-text">
+                        <tr><td><input asp-for="Surname" placeholder="Введите фамилию"/></td></tr>
+                        <tr><td><span style="color: red;" asp-validation-for="Surname"></span></span></td></tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table class="input-text">
+                        <tr><td><input asp-for="Patronymic" placeholder="Введите отчество"/></td></tr>
+                        <tr><td><span style="color: red;" asp-validation-for="Patronymic"></span></span></td></tr>
+                    </table>
+                </td></tr>
+                <tr><td><input type="submit"/></td></tr>
+            </table>
         </div>
-        <div>
-            <input asp-for="Name" placeholder="Введите имя"/>
-            <span style="color: red;" asp-validation-for="Name"></span>
-        </div>
-        <div>
-            <input asp-for="Surname" placeholder="Введите фамилию"/>
-            <span style="color: red;" asp-validation-for="Surname"></span>
-        </div>
-        <div>
-            <input asp-for="Patronymic" placeholder="Введите отчество"/>
-            <span style="color: red;" asp-validation-for="Patronymic"></span>
-        </div>
-        <input type="submit"/>
     </form>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
