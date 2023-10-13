@@ -160,4 +160,55 @@ public class DbManagerService : IDBManager
             result[dict[inn]] = true;
         return result;
     }
+
+    public ClientInfoModel? GetClient(string inn)
+    {
+        var client = _context.Clients.FirstOrDefault(x => x.INN == inn);
+        if(client == null)
+            return null;
+        var founders = _context.ClientFounderRelationship
+            .Where(x => x.ClientId == client.INN)
+            .Select(x => x.Founder)
+            .ToArray();
+        FounderInfoModel[]? convertedFounders = null;
+        if(founders.Length != 0)
+        {
+            convertedFounders = new FounderInfoModel[founders.Length];
+            for(int i = 0; i < convertedFounders.Length; i++)
+            {
+                convertedFounders[i] = new(
+                    founders[i].INN,
+                    founders[i].Name,
+                    founders[i].Surname,
+                    founders[i].Patronymic,
+                    founders[i].AddDateTime,
+                    founders[i].UpdateDateTime
+                );
+            }
+        }
+        var model = new ClientInfoModel(
+            client.INN,
+            client.Name,
+            client.Type,
+            client.AddDateTime,
+            client.UpdateDateTime,
+            convertedFounders
+        );
+        return model;
+    }
+
+    public ShowClientModel GetAllClients()
+    {
+        var model = new ShowClientModel();
+        var clients = _context.Clients.Select(x => new {x.INN, x.Name}).ToArray();
+        model.Clients = new ClientBriefInfo[clients.Length];
+        for(int i = 0; i < model.Clients.Length; i++)
+        {
+            model.Clients[i] = new ClientBriefInfo(
+                clients[i].INN,
+                clients[i].Name
+            );
+        }
+        return model;
+    }
 }

@@ -1,0 +1,97 @@
+@model ClientInfoModel
+@using app.Architecture.Enums
+@{
+    var clientTypeDict = new Dictionary<ClientType, string>(2);
+    clientTypeDict.Add(ClientType.IndividualEntrepreneur, "Индивидуальный предприниматель");
+    clientTypeDict.Add(ClientType.LegalEntity, "Юридическое лицо");
+}
+<div>
+<table>
+    <tr>
+        <td>ИНН клиента</td>
+        <td>@Model.INN</td>
+    </tr>
+    <tr>
+        <td>Название</td>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <td>Тип</td>
+        <td>@clientTypeDict[Model.Type]</td>
+    </tr>
+    <tr>
+        <td>Дата добавления</td>
+        <td>@Model.AddDateTime.ToString()</td>
+    </tr>
+    <tr>
+        <td>Дата изменения</td>
+        <td>@Model.UpdateDateTime.ToString()</td>
+    </tr>
+    @if(Model.FounderINNs != null)
+    {
+        <tr>
+            <td>Учредители</td>
+            <td>
+                <table>
+                    <tr><td>
+                        <select id="founderSelector">
+                            @for(int i = 0; i < (Model.FounderINNs.Length); i++)
+                            {
+                                <option value="@Model.FounderINNs[i].INN">@Model.FounderINNs[i].INN</option>
+                            }
+                        </select>
+                    </td></tr>
+                    <tr><td>
+                        <table>
+                            @for(int i = 0; i < Model.FounderINNs.Length; i++)
+                            {
+                                <tr id="founder-@Model.FounderINNs[i].INN" style="display: none;"><td>
+                                    <table>
+                                        <tr>
+                                            <td>ИНН</td>
+                                            <td>@Model.FounderINNs[i].INN</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Имя</td>
+                                            <td>@Model.FounderINNs[i].Name</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Фамилия</td>
+                                            <td>@Model.FounderINNs[i].Surname</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Отчество</td>
+                                            <td>@Model.FounderINNs[i].Patronymic</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Дата добавления</td>
+                                            <td>@Model.FounderINNs[i].AddDateTime.ToString()</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Последние изменения</td>
+                                            <td>@Model.FounderINNs[i].UpdateDateTime.ToString()</td>
+                                        </tr>
+                                    </table>
+                                </td></tr>
+                            }
+                        </table>
+                    </td></tr>
+                </table>
+            </td>
+        </tr>
+    }
+</table>
+<script>
+    var founderSelector = document.getElementById('founderSelector');
+    var currentFounder = "";
+    var UpdateFoundersContentVisibility = function () {
+        var value = founderSelector.value;
+        if(currentFounder != '')
+            document.getElementById('founder-' + currentFounder).style.display = 'none';
+        document.getElementById('founder-' + value).style.display = '';
+        currentFounder = value;
+    };
+    founderSelector.addEventListener('change', UpdateFoundersContentVisibility);
+    document.addEventListener('DOMContentLoaded', UpdateFoundersContentVisibility);
+</script>
+</div>

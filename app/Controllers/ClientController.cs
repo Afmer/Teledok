@@ -64,4 +64,19 @@ public class ClientController : Controller
         else
             return Json(new {status = "invalid"});
     }
+
+    [HttpGet]
+    public IActionResult ShowAll()
+    {
+        return View(_dbHandler.GetAllClients());
+    }
+    [HttpGet] 
+    public IActionResult Show(string INN)
+    {
+        var client = _dbHandler.GetClient(INN);
+        if(client != null)
+            return View(client);
+        else
+            return View("ClientNotFound");
+    }
 }

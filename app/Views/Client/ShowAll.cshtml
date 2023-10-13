@@ -1,0 +1,23 @@
+@model ShowClientModel
+<div>
+    <table>
+    @{
+        int currentCount = 0;
+        while(currentCount < Model.Clients.Length)
+        {
+            <tr>
+            @for(int i = 0; i < 5 && currentCount < Model.Clients.Length; i++)
+            {
+                <td>
+                    <table>
+                        <tr><td><a asp-controller="Client" asp-action="Show" asp-route-INN="@Model.Clients[i].INN">@Model.Clients[i].Name</a></td></tr>
+                        <tr><td><p>@Model.Clients[i].INN</p></td></tr>
+                    </table>
+                </td>
+                currentCount++;
+            }
+            </tr>
+        }
+    }
+    </table>
+</div>
