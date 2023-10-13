@@ -33,7 +33,7 @@
                 </td></tr>
                 <tr id="FoundersINNContainer"><td>
                     <p class="span-error">@founderINNsNotExistsMessage</p>
-                    <input type="number" asp-for="@Model.FoundersCount" min="0"/>
+                    <input type="number" asp-for="@Model.FoundersCount" min="0" max="100" placeholder="Количество учредителей"/>
                     <table id="FounderINNInputs" class="founder-inns-inputs">
                     </table>
                 <td></tr>
@@ -62,13 +62,17 @@
         };
         var AddFounderINNsFileds = function() {
             var count = founderCountInput.value;
+            if(count > 100)
+                return;
             var html = '';
             for(var i = 0; i < count; i++){
                 const index = i.toString();
                 const string = `
                 <tr><td>
-                    <input type="text" maxlength="@founderINNValidation.MaxLength" class="founderINN" id="FounderINNs[${index}]" name="FounderINNs[${index}]"/>
-                    <span class="span-error" data-valmsg-for="FounderINNs[${index}]" data-valmsg-replace="true"></span>
+                    <table>
+                        <tr><td><input type="text" placeholder="Инн учредителя" maxlength="@founderINNValidation.MaxLength" class="founderINN" id="FounderINNs[${index}]" name="FounderINNs[${index}]"/></td></tr>
+                        <tr><td><span class="span-error" data-valmsg-for="FounderINNs[${index}]" data-valmsg-replace="true"></span></td></tr>
+                    </table>
                 </td></tr>
                 `;
                 html += string;
