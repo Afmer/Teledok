@@ -26,6 +26,11 @@ public class ClientController : Controller
             {
                 if(model.FounderINNs != null)
                 {
+                    if(!AreAllINNsDistinct(model.FounderINNs))
+                    {
+                        ViewBag.FounderINNsErrorMessage = "Вы ввели одинаковые ИНН";
+                        return View(model);
+                    }
                     var isFounderINNsExists = _dbHandler.IsFounderINNsExists(model.FounderINNs);
                     bool isError = false;
                     string errorMessage = "Следующих учредителей нет в базе: ";
@@ -43,7 +48,7 @@ public class ClientController : Controller
                     }
                     if(isError)
                     {
-                        ViewBag.FounderINNsNotExistsMessage = errorMessage;
+                        ViewBag.FounderINNsErrorMessage = errorMessage;
                         return View(model);
                     }
                 }
@@ -79,4 +84,17 @@ public class ClientController : Controller
         else
             return View("ClientNotFound");
     }
+    private bool AreAllINNsDistinct(string[] array)
+{
+    HashSet<string> set = new HashSet<string>();
+    
+    foreach (string element in array)
+    {
+        if (set.Contains(element))
+            return false;
+        set.Add(element);
+    }
+    
+    return true;
+}
 }
