@@ -1,0 +1,31 @@
+.client-page table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #ddd; /* Добавляем рамку вокруг таблицы */
+}
+
+.client-page th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Разделяем строки горизонтальными линиями */
+}
+
+/* Стили для заголовков */
+.client-page th {
+    background-color: #f2f2f2; /* Цвет фона для заголовков */
+}
+
+/* Стили для селектора учредителя */
+.client-page #founderSelector {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Стили для видимых строк с информацией об учредителях */
+.client-page tr[id^="founder-"][style="display:"] {
+    display: table-row;
+    background-color: #f9f9f9; /* Цвет фона для четных строк */
+}

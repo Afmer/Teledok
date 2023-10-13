@@ -1,0 +1,42 @@
+.client-grid .cell {
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 30px;
+    text-align: center;
+}
+
+.client-grid .cell a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+    position: relative;
+    font-family: 'Young Serif', serif;
+}
+
+.client-grid .cell a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.client-grid .cell a:hover {
+    color: #0056b3;
+}
+
+.client-grid .cell a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+
+
+
+
